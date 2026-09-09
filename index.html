@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head><script>try{var t=localStorage.getItem("aloe-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Aloe Scribe. The private AI meeting notetaker. No bot, no cloud.</title>
@@ -28,6 +28,44 @@
     --paper: #F6FAF7;
     --white: #FFFFFF;
   }
+
+  /* Dark theme — the app's own dark palette. An explicit choice via the
+     sun/moon toggle wins; otherwise the system decides. */
+  html[data-theme="dark"] {
+    --green: #5FB584;
+    --green-2: #5FB584;
+    --green-dark: #7CC79B;
+    --ink: #E6EEE8;
+    --body: #AEB8B0;
+    --caption: #9AAAA0;
+    --line: #2E3B32;
+    --paper: #1B231D;
+    --white: #131A15;
+    --warn: #D9A55C;
+    color-scheme: dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme="light"]) {
+    --green: #5FB584;
+    --green-2: #5FB584;
+    --green-dark: #7CC79B;
+    --ink: #E6EEE8;
+    --body: #AEB8B0;
+    --caption: #9AAAA0;
+    --line: #2E3B32;
+    --paper: #1B231D;
+    --white: #131A15;
+    --warn: #D9A55C;
+    color-scheme: dark;
+    }
+  }
+  .theme-toggle {
+    background: none; border: none; cursor: pointer; padding: 0.3rem;
+    border-radius: 8px; color: var(--caption); display: inline-flex;
+    align-items: center;
+  }
+  .theme-toggle:hover { color: var(--green); background: var(--paper); }
+  .theme-toggle svg { width: 18px; height: 18px; display: block; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
@@ -209,7 +247,8 @@
       <a href="security.html">Security</a>
     </div>
     <a href="#download" class="btn small">Download</a>
-  </nav>
+    <button id="themeToggle" class="theme-toggle" aria-label="Switch between light and dark" title="Light or dark"></button>
+</nav>
 </header>
 
 <main>
@@ -536,5 +575,29 @@ document.getElementById('signup-form').addEventListener('submit', function (e) {
 </script>
 
 <script data-goatcounter="https://aloescribe.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>
+(function () {
+  var btn = document.getElementById("themeToggle");
+  if (!btn) return;
+  var SUN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5 5l1.7 1.7M17.3 17.3 19 19M19 5l-1.7 1.7M6.7 17.3 5 19"/></svg>';
+  var MOON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg>';
+  function effective() {
+    var t = document.documentElement.getAttribute("data-theme");
+    if (t) return t;
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  }
+  function paint() { btn.innerHTML = effective() === "dark" ? SUN : MOON; }
+  btn.addEventListener("click", function () {
+    var next = effective() === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    try { localStorage.setItem("aloe-theme", next); } catch (e) {}
+    paint();
+  });
+  try {
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", paint);
+  } catch (e) {}
+  paint();
+})();
+</script>
 </body>
 </html>
