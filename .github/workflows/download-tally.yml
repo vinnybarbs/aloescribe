@@ -1,0 +1,69 @@
+# Download tally for the blackboard orchestrator.
+#
+# The orchestrator runs in a Claude cloud sandbox whose egress proxy
+# allows git to github.com but returns 403 for api.github.com, so it can
+# clone this repo but cannot call the releases API. This workflow calls
+# the API from inside GitHub, where it is always reachable, and publishes
+# the per release download counts to the stats branch as downloads.json.
+# The orchestrator reads it with a shallow clone of that branch.
+#
+# Runs daily before the orchestrator (12:00 UTC), on every published
+# release, and by hand. Needs no secrets beyond the workflow token.
+name: Download tally
+
+on:
+  schedule:
+    - cron: '30 11 * * *'
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  tally:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build downloads.json from the releases API
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --paginate "repos/${{ github.repository }}/releases" > /tmp/releases.json
+          jq '[.[] | {tag: .tag_name, name: .name, published_at: .published_at,
+                assets: [.assets[] | {name: .name, download_count: .download_count, size: .size}]}]' \
+            /tmp/releases.json > /tmp/releases-slim.json
+          jq --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)" '{
+              generated_at: $now,
+              totals: {
+                mac_dmg: ([.[] | select(.tag | startswith("mac-v")) | .assets[] | select(.name | endswith(".dmg")) | .download_count] | add // 0),
+                windows_exe: ([.[] | select(.tag | startswith("windows-v")) | .assets[] | select(.name | endswith(".exe")) | .download_count] | add // 0)
+              },
+              releases: .
+            }' /tmp/releases-slim.json > /tmp/downloads.json
+          cat /tmp/downloads.json
+
+      - name: Publish to the stats branch
+        run: |
+          git config user.name "download-tally"
+          git config user.email "actions@users.noreply.github.com"
+          if git fetch origin stats 2>/dev/null; then
+            git worktree add /tmp/stats origin/stats
+            git -C /tmp/stats checkout -B stats
+          else
+            empty_tree=$(git hash-object -t tree /dev/null)
+            root=$(git commit-tree "$empty_tree" -m "stats branch root")
+            git branch stats "$root"
+            git worktree add /tmp/stats stats
+          fi
+          cp /tmp/downloads.json /tmp/stats/downloads.json
+          cd /tmp/stats
+          git add downloads.json
+          if git diff --cached --quiet; then
+            echo "No change in download counts"
+            exit 0
+          fi
+          git commit -m "Download tally $(date -u +%Y-%m-%d)"
+          git push origin stats
