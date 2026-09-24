@@ -5,8 +5,8 @@
     "sha256": "13c37f9e37693275fb23453e287ae27ac0d54fc22c6ba7767cc9a6ead88ae3a1"
   },
   "mac": {
-    "version": "1.3.18",
-    "url": "https://github.com/vinnybarbs/aloescribe/releases/download/mac-v1.3.18/AloeScribe-1.3.18.dmg",
-    "sha256": "561c1f387a0f647993feb34dea8c64dadb0dd07e9025e25404806e891545e812"
+    "version": "1.3.19",
+    "url": "https://github.com/vinnybarbs/aloescribe/releases/download/mac-v1.3.19/AloeScribe-1.3.19.dmg",
+    "sha256": "f5b63378d49f3b72696b6e33443c00c0fa0a936e0b8714145567d97a6c1a4eb9"
   }
 }
