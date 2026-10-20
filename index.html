@@ -166,6 +166,7 @@
   .table-scroll { overflow-x: auto; }
 
   .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; margin-top: 1.5rem; }
+  .cols.stack { grid-template-columns: 1fr; }
   .card {
     background: var(--paper); border: 1px solid var(--line); border-radius: 14px;
     padding: 1.35rem 1.4rem; font-size: 0.96rem;
@@ -243,6 +244,7 @@
       <a href="#how">How it works</a>
       <a href="#speakers">Speakers</a>
       <a href="#data">Your data</a>
+      <a href="#agents">Your AI</a>
       <a href="#faq">FAQ</a>
       <a href="security.html">Security</a>
     </div>
@@ -352,6 +354,28 @@
   </div>
 </section>
 
+<section id="agents">
+  <div class="wrap">
+    <p class="kicker">Built for your AI</p>
+    <h2>Your notes are files your AI already reads.</h2>
+    <p>Cloud notetakers keep your meetings on their servers, and your AI assistant can only reach them through the vendor's own connector, with plan limits, rate limits, and a login. Aloe Scribe writes each meeting as a plain Markdown file in a folder you choose, including a shared OneDrive or SharePoint folder. Claude, Copilot, ChatGPT, or a simple script can read it there. There's no API to call, no rate limit, and no vendor account.</p>
+    <div class="cols stack">
+      <div class="card">
+        <h3>Structured for search</h3>
+        <p>Every note starts with the same metadata header: title, date, duration, client, attendees, and speakers, with names spelled the same way across every meeting. "When did I last meet with this client?" is a search through the headers. Nothing has to read a transcript to answer it.</p>
+      </div>
+      <div class="card">
+        <h3>Summary first, transcript last</h3>
+        <p>The summary, decisions, action items, and open questions come before the transcript. An AI reads a small part of each note first and only goes on to the transcript when it needs it. Every transcript line carries a timestamp and a real name, so answers can point to the exact moment.</p>
+      </div>
+      <div class="card">
+        <h3>Ask notes, on your machine</h3>
+        <p>Inside the app, Ask notes searches your whole vault by words and by meaning, and a model on your computer writes the answer, with sources. No question and no note is sent anywhere, and a question costs nothing. Ask notes is in the Mac app today and comes to Windows with the next Windows release.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="requirements">
   <div class="wrap">
     <p class="kicker">System requirements</p>
@@ -362,8 +386,8 @@
         <ul>
           <li>Apple Silicon (M1 or later)</li>
           <li>macOS 13 or newer</li>
-          <li>8 GB RAM minimum, 16 GB recommended</li>
-          <li>12 GB free disk</li>
+          <li>8 GB RAM minimum, 16 GB recommended, 32 GB for the high quality summaries</li>
+          <li>8 GB free disk, up to 25 GB with the high quality tier</li>
         </ul>
       </div>
       <div class="card">
@@ -462,6 +486,11 @@
     <details>
       <summary>What format are the transcripts?</summary>
       <p>Plain Markdown files with a structured metadata header, saved to a folder you choose. They open in any editor and are built to feed your own AI tools, including Glean, Copilot, and Obsidian. Linked names for Obsidian and Logseq are one switch in Settings.</p>
+    </details>
+
+    <details>
+      <summary>Can Claude, Copilot, or ChatGPT read my notes?</summary>
+      <p>Yes, with nothing to set up. Your notes are ordinary files in your own folder, so any AI tool that can read a folder can read them. Microsoft Copilot can index them from OneDrive or SharePoint, and Claude or ChatGPT can read them from the folder. You don't need an API key or a vendor account, and you don't hit a plan limit. To keep the questions on your computer too, use Ask notes in the app.</p>
     </details>
   </div>
 </section>

@@ -253,16 +253,16 @@
 <section>
   <div class="wrap">
     <h2>What happens on your device</h2>
-    <p>Recording, transcription, speaker identification, and summarization all run locally using open models (Parakeet for speech, CAM++ for voices, Gemma 4 or Qwen for summaries). No account, no login, no cloud. The models are named here on purpose, so the claim can be checked, not just believed.</p>
+    <p>Recording, transcription, speaker identification, and summarization all run locally using open models. Parakeet transcribes on Mac and Whisper on Windows, CAM++ tells voices apart, Gemma 4 or Qwen writes the summaries, and Qwen3 Embedding powers search in Ask notes. No account, no login, no cloud. The models are named here on purpose, so the claim can be checked, not just believed.</p>
   </div>
 </section>
 
 <section>
   <div class="wrap">
     <h2>What we can see</h2>
-    <p>The app talks to the network for exactly two things. Downloading the app and its models from GitHub releases, and checking GitHub for updates. Those requests carry no meeting content. Like any download, GitHub's servers see the requesting IP address. We operate no servers, collect no analytics, and could not read your transcripts if we wanted to.</p>
+    <p>The app talks to the network for exactly two things. It downloads the app and its models from GitHub releases, and it checks aloescribe.ai for a newer version when you click Check for updates. Those requests carry no meeting content. Like any download, the server sees the requesting IP address. If you point the app at your own model server in Settings, it talks to that server too, and only that one. The app reaches no server of ours, collects no analytics, and we could not read your transcripts if we wanted to.</p>
     <div class="claim">
-      <p><strong>Verify it yourself.</strong> Run Aloe Scribe behind an outbound firewall such as Little Snitch and block everything except github.com. Every feature except updates keeps working. We invite that test.</p>
+      <p><strong>Verify it yourself.</strong> Run Aloe Scribe behind an outbound firewall such as Little Snitch and block everything except GitHub and aloescribe.ai. Block those too once the models are downloaded, and every feature except updates keeps working. We invite that test.</p>
     </div>
   </div>
 </section>
@@ -270,7 +270,7 @@
 <section>
   <div class="wrap">
     <h2>Your files, your format</h2>
-    <p>Transcripts are plain Markdown files on your disk, in a folder you choose. Voice profiles are a human-readable JSON file you can open, inspect, and delete. Uninstalling the app leaves nothing behind anywhere else. There is no license server and no account, so the app keeps working even if we disappear.</p>
+    <p>Transcripts are plain Markdown files on your disk, in a folder you choose. Any editor or AI tool you trust can read them, and none of them needs our permission. Voice profiles are a human-readable JSON file you can open, inspect, and delete. Uninstalling the app leaves nothing behind anywhere else. There is no license server and no account, so the app keeps working even if we disappear.</p>
   </div>
 </section>
 
@@ -304,7 +304,7 @@
       <li>Releases publish SHA-256 checksums for their downloads.</li>
       <li>Model files are fetched over HTTPS from pinned release URLs.</li>
       <li>Dependencies are scanned continuously (GitHub vulnerability alerts, CodeQL, and a weekly audit).</li>
-      <li>macOS notarization and Windows code signing are in progress and will appear here when live.</li>
+      <li>Mac releases are signed with an Apple Developer ID and notarized by Apple. Windows code signing is in progress and will appear here when live.</li>
     </ul>
   </div>
 </section>
