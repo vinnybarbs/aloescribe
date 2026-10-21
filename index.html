@@ -370,7 +370,7 @@
       </div>
       <div class="card">
         <h3>Ask notes, on your machine</h3>
-        <p>Inside the app, Ask notes searches your whole vault by words and by meaning, and a model on your computer writes the answer, with sources. No question and no note is sent anywhere, and a question costs nothing. Ask notes is in the Mac app today and comes to Windows with the next Windows release.</p>
+        <p>Inside the app, Ask notes searches your whole vault by words and by meaning, and a model on your computer writes the answer, with sources. No question and no note is sent anywhere, and a question costs nothing. It works the same on Mac and Windows.</p>
       </div>
     </div>
   </div>
@@ -395,10 +395,9 @@
         <ul>
           <li>64-bit Windows 10 or 11</li>
           <li>CPU with AVX2, 4 cores or more</li>
-          <li>8 GB RAM</li>
-          <li>6 GB free disk</li>
+          <li>8 GB RAM minimum, 16 GB recommended, 24 GB for the high quality summaries</li>
+          <li>8 GB free disk, up to 20 GB with the high quality tier</li>
         </ul>
-        <p class="caption" style="margin-top:0.7rem">The Windows version does not yet bundle a summary model. Point it at your own model server for summaries.</p>
       </div>
     </div>
   </div>
@@ -429,11 +428,12 @@
 
     <div class="dl-card">
       <h3>Windows <span class="badge">Beta</span></h3>
-      <p style="margin-top:0.4rem">Direct download, 1.4 GB. The installer bundles the transcription model, so the installed app works offline.</p>
+      <p style="margin-top:0.4rem">Signed installer, 1.6 GB, no admin rights needed. It carries the transcription model, so recording works offline from the first launch. A one-time setup then downloads the summary model sized for your PC and the meaning search model for Ask notes.</p>
       <div class="copy-row" style="margin-top:0.9rem">
-        <a class="btn" id="win-dl-btn" href="https://github.com/vinnybarbs/aloescribe/releases/download/windows-v0.1/AloeScribeSetup.exe">Download for Windows</a>
+        <a class="btn" id="win-dl-btn" href="https://github.com/vinnybarbs/aloescribe/releases/download/windows-v1.3.29/AloeScribeSetup.exe">Download for Windows</a>
+        <span class="caption" id="win-dl-meta">Version 1.3.29 · SHA-256 published on the release</span>
       </div>
-      <p class="caption" style="margin-top:0.7rem">The beta installer is unsigned, so Windows SmartScreen will warn you. Click "More info", then "Run anyway". The Windows beta does not yet bundle a summary model, and echo removal is built in but not yet tested on real Windows hardware.</p>
+      <p class="caption" style="margin-top:0.7rem">SmartScreen can still warn while the new signature builds its reputation. If it does, click "More info", then "Run anyway". Once installed, Check for updates in Settings installs new versions in place.</p>
     </div>
 
     <div class="dl-card">
@@ -509,7 +509,14 @@
 // When the release pipeline publishes a notarized DMG it writes
 // version.json, and this card upgrades itself from the terminal
 // one-liner to a plain download button. No release-day HTML edits.
+// The Windows button follows the same file, so a new windows entry
+// moves it too. The link in the HTML is the fallback.
 fetch('version.json').then(function (r) { return r.json(); }).then(function (v) {
+  if (v.windows && v.windows.url) {
+    document.getElementById('win-dl-btn').href = v.windows.url;
+    document.getElementById('win-dl-meta').textContent =
+      'Version ' + v.windows.version + ' · SHA-256 published on the release';
+  }
   if (!v.mac || !v.mac.url) return;
   document.getElementById('mac-dmg-btn').href = v.mac.url;
   document.getElementById('mac-dmg-meta').textContent =

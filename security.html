@@ -304,7 +304,7 @@
       <li>Releases publish SHA-256 checksums for their downloads.</li>
       <li>Model files are fetched over HTTPS from pinned release URLs.</li>
       <li>Dependencies are scanned continuously (GitHub vulnerability alerts, CodeQL, and a weekly audit).</li>
-      <li>Mac releases are signed with an Apple Developer ID and notarized by Apple. Windows code signing is in progress and will appear here when live.</li>
+      <li>Mac releases are signed with an Apple Developer ID and notarized by Apple. Windows releases are signed through Microsoft's Artifact Signing service. The app and its installer both carry the signature and a timestamp.</li>
     </ul>
   </div>
 </section>
@@ -312,7 +312,7 @@
 <section>
   <div class="wrap">
     <h2>What we do not have</h2>
-    <p>No SOC 2 report, because there is no service organization to audit. No cloud penetration test, because there is no cloud. The Windows beta installer is not yet code signed. If your security review needs a control mapping or the full list of network calls, ask, most hosted-service questions close as not applicable here, and we would rather show you than have you take our word.</p>
+    <p>No SOC 2 report, because there is no service organization to audit. No cloud penetration test, because there is no cloud. If your security review needs a control mapping or the full list of network calls, ask, most hosted-service questions close as not applicable here, and we would rather show you than have you take our word.</p>
   </div>
 </section>
 
