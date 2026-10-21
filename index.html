@@ -391,7 +391,7 @@
         </ul>
       </div>
       <div class="card">
-        <h3>Windows <span class="badge">Beta</span></h3>
+        <h3>Windows</h3>
         <ul>
           <li>64-bit Windows 10 or 11</li>
           <li>CPU with AVX2, 4 cores or more</li>
@@ -427,8 +427,8 @@
     </div>
 
     <div class="dl-card">
-      <h3>Windows <span class="badge">Beta</span></h3>
-      <p style="margin-top:0.4rem">Signed installer, 1.6 GB, no admin rights needed. It carries the transcription model, so recording works offline from the first launch. A one-time setup then downloads the summary model sized for your PC and the meaning search model for Ask notes.</p>
+      <h3>Windows</h3>
+      <p style="margin-top:0.4rem">Signed installer, 1.8 GB, no admin rights needed. It carries the transcription model, so recording works offline from the first launch. A one-time setup then downloads the summary model sized for your PC and the meaning search model for Ask notes.</p>
       <div class="copy-row" style="margin-top:0.9rem">
         <a class="btn" id="win-dl-btn" href="https://github.com/vinnybarbs/aloescribe/releases/download/windows-v1.3.33/AloeScribeSetup.exe">Download for Windows</a>
         <span class="caption" id="win-dl-meta">Version 1.3.33 · SHA-256 published on the release</span>
@@ -511,7 +511,7 @@
 // one-liner to a plain download button. No release-day HTML edits.
 // The Windows button follows the same file, so a new windows entry
 // moves it too. The link in the HTML is the fallback.
-fetch('version.json').then(function (r) { return r.json(); }).then(function (v) {
+fetch('version.json', { cache: 'no-cache' }).then(function (r) { return r.json(); }).then(function (v) {
   if (v.windows && v.windows.url) {
     document.getElementById('win-dl-btn').href = v.windows.url;
     document.getElementById('win-dl-meta').textContent =
