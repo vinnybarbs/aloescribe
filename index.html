@@ -511,7 +511,7 @@
 // one-liner to a plain download button. No release-day HTML edits.
 // The Windows button follows the same file, so a new windows entry
 // moves it too. The link in the HTML is the fallback.
-fetch('version.json').then(function (r) { return r.json(); }).then(function (v) {
+fetch('version.json', { cache: 'no-cache' }).then(function (r) { return r.json(); }).then(function (v) {
   if (v.windows && v.windows.url) {
     document.getElementById('win-dl-btn').href = v.windows.url;
     document.getElementById('win-dl-meta').textContent =
