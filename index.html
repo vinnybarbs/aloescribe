@@ -233,6 +233,20 @@
     section { padding: 3.25rem 0; }
     .hero { padding: 3.5rem 0 3.25rem; }
   }
+
+  /* Product stills: one file per appearance, the one that matches shows. */
+  .still { margin: 1.6rem 0 0; }
+  .still img { width: 100%; height: auto; display: block; border: 1px solid var(--line); border-radius: 12px; }
+  .still .dark { display: none; }
+  html[data-theme="dark"] .still .light { display: none; }
+  html[data-theme="dark"] .still .dark { display: block; }
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme="light"]) .still .light { display: none; }
+    html:not([data-theme="light"]) .still .dark { display: block; }
+  }
+  .still figcaption { color: var(--caption); font-size: .9rem; margin-top: .6rem; }
+  .stills-row { display: grid; grid-template-columns: 1fr; gap: 1.4rem; align-items: start; }
+  @media (min-width: 820px) { .stills-row { grid-template-columns: 3fr 2fr; } }
 </style>
 </head>
 <body>
@@ -349,7 +363,7 @@
       </tr>
     </table>
     </div>
-    <p>Your transcripts are built to feed your own tools. The Markdown metadata is readable by Glean, Copilot, and anything else you point at the folder. Linked names for Obsidian and Logseq turn every attendee into a page that lists their meetings.</p>
+    <p>Your transcripts are built to feed your own tools. The Markdown metadata is readable by Glean, Copilot, and anything else you point at the folder. The notes open in whatever you already use: Obsidian, Logseq and Notion read the files as they are, and Apple Notes and OneNote take them through their Markdown import. With linked names on, every attendee becomes a page that lists their meetings.</p>
     <p class="caption">Local capture does not waive consent laws. Disclose recording where your jurisdiction or client agreements require it.</p>
   </div>
 </section>
@@ -372,6 +386,19 @@
         <h3>Ask notes, on your machine</h3>
         <p>Inside the app, Ask notes searches your whole vault by words and by meaning, and a model on your computer writes the answer, with sources. No question and no note is sent anywhere, and a question costs nothing. It works the same on Mac and Windows.</p>
       </div>
+    </div>
+  
+    <div class="stills-row">
+      <figure class="still">
+        <img class="light" src="assets/s7-ask-light@2x.png" width="1960" height="1416" alt="Ask notes: a question about the spring blend answered with eight cited quotes from meetings, a contact page and a price sheet, then a two line email drafted on request" loading="lazy">
+        <img class="dark" src="assets/s7-ask-dark@2x.png" width="1960" height="1416" alt="Ask notes in dark mode: the same question and cited answer" loading="lazy">
+        <figcaption>Ask the vault. The quotes land the instant you press Ask, straight from the index. Then a model on this computer writes the answer under them, and the follow-up knows who "Sam" is.</figcaption>
+      </figure>
+      <figure class="still">
+        <img class="light" src="assets/s8-mcp-light@2x.png" width="1092" height="1376" alt="Settings, AI apps (MCP Server): Connect Claude Code and Copy setup buttons" loading="lazy">
+        <img class="dark" src="assets/s8-mcp-dark@2x.png" width="1092" height="1376" alt="Settings, AI apps (MCP Server) in dark mode" loading="lazy">
+        <figcaption>Claude Code, Copilot, Cursor or Glean: one click and they can search and read your notes, read only, on this computer. Aloe runs the search and hands the app only the passages it asks for.</figcaption>
+      </figure>
     </div>
   </div>
 </section>
@@ -485,7 +512,7 @@
 
     <details>
       <summary>What format are the transcripts?</summary>
-      <p>Plain Markdown files with a structured metadata header, saved to a folder you choose. They open in any editor and are built to feed your own AI tools, including Glean, Copilot, and Obsidian. Linked names for Obsidian and Logseq are one switch in Settings.</p>
+      <p>Plain Markdown files with a structured metadata header, saved to a folder you choose. They open in any notes app that reads Markdown, Obsidian, Logseq, Notion, Apple Notes or OneNote, and are built to feed your own AI tools, including Glean, Copilot, and Obsidian. Linked names for Obsidian and Logseq are one switch in Settings.</p>
     </details>
 
     <details>
