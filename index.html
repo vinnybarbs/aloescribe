@@ -157,8 +157,9 @@
   .win-bar i:nth-child(2) { background: #F4BF4F; }
   .win-bar i:nth-child(3) { background: #61C554; }
   .win-bar span {
-    position: absolute; left: 0; right: 0; text-align: center; font-size: .78rem;
+    position: absolute; left: 64px; right: 64px; text-align: center; font-size: .78rem;
     color: var(--caption); font-weight: 600; pointer-events: none;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   .win img { display: block; width: 100%; height: auto; }
 
@@ -219,11 +220,34 @@
     .stage-shot { display: none; }
     .stage-shot.on { display: block; animation: rise .45s ease both; }
   }
+  /* Phones: the still pins at the top and swaps as each step scrolls under it.
+     The JS adds .phone-stage, so without it the stills stay inline. */
+  @media (max-width: 979px) {
+    .walk-grid.phone-stage { display: flex; flex-direction: column; --stage-h: min(34vh, 290px); }
+    .walk-grid.phone-stage .sticky-stage {
+      display: grid; order: -1; position: sticky; top: env(safe-area-inset-top, 0px); z-index: 2;
+      height: calc(var(--stage-h) + 34px + 1.6rem); padding-block: .8rem;
+      background: var(--bg); justify-items: center; align-items: start;
+    }
+    .walk-grid.phone-stage .sticky-stage::after {
+      content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 1.4rem;
+      background: linear-gradient(var(--bg), transparent); pointer-events: none;
+    }
+    .walk-grid.phone-stage .stage-shot { display: none; grid-area: 1 / 1; width: min(100%, calc(var(--stage-h) * var(--r, 1.5))); }
+    .walk-grid.phone-stage .stage-shot.on { display: block; animation: rise .45s ease both; }
+    .walk-grid.phone-stage .inline-shot { display: none; }
+    .walk-grid.phone-stage .walk { gap: 0; }
+    .walk-grid.phone-stage .step { min-height: 60vh; align-content: start; padding-block: 1.6rem 2.5rem; opacity: .4; transition: opacity .3s ease; }
+    .walk-grid.phone-stage .step.on { opacity: 1; }
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+  }
   @keyframes rise { from { opacity: .3; transform: translateY(10px); } to { opacity: 1; transform: none; } }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     .stage-shot.on { animation: none; }
     .step { transition: none; }
+    .walk-grid.phone-stage .step { transition: none; }
   }
 
   /* Files band, dark in both themes. The same note four ways: the file,
@@ -289,6 +313,36 @@
     .cap-stack .cap-card { position: absolute; right: -1.5rem; bottom: 0; width: 44%; margin: 0; }
   }
   @media (min-width: 640px) and (max-width: 979px) { .cap-stack .cap-card { right: 0; } }
+  /* Phones: the same pinned stage as the walkthrough. The file view drops
+     its folder tree and fades out below the header. */
+  @media (max-width: 979px) {
+    .fwalk.staged { display: flex; flex-direction: column; gap: 0; --stage-h: min(34vh, 290px); }
+    .fwalk.staged .fstage {
+      display: grid; order: -1; position: sticky; top: env(safe-area-inset-top, 0px); z-index: 2;
+      height: calc(var(--stage-h) + 34px + 1.6rem); padding-block: .8rem;
+      background: var(--band); justify-items: center; align-items: start;
+    }
+    .fwalk.staged .fstage::after {
+      content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 1.4rem;
+      background: linear-gradient(var(--band), transparent); pointer-events: none;
+    }
+    .fwalk.staged .fsteps { gap: 0; }
+    .fwalk.staged .fstep > .fpanel { display: none; }
+    .fwalk.staged .fstep { min-height: 60vh; align-content: start; padding-block: 1.6rem 2.5rem; opacity: .4; transition: opacity .3s ease; }
+    .fwalk.staged .fstep.on { opacity: 1; }
+    .fstage > .fpanel { display: none; grid-area: 1 / 1; width: min(100%, calc(var(--stage-h) * var(--r, 1.5))); }
+    .fstage > .fpanel:first-child { width: 100%; }
+    .fstage > .fpanel.on { display: grid; animation: rise .45s ease both; }
+    .fstage .vault { grid-template-columns: minmax(0, 1fr); }
+    .fstage .tree { display: none; }
+    .fstage .md {
+      height: calc(var(--stage-h) + 32px); overflow: hidden;
+      -webkit-mask-image: linear-gradient(#000 70%, transparent); mask-image: linear-gradient(#000 70%, transparent);
+    }
+    .fstage .cap-stack { padding-bottom: 0; }
+    .fstage .cap-stack .cap-card { position: absolute; right: -.4rem; bottom: -.5rem; width: 38%; margin: 0; }
+    .fstage .cap-card .win-bar span { display: none; }
+  }
 
   /* Built for your AI */
   .ai-grid { display: grid; gap: 3rem; margin-top: clamp(2rem, 5vw, 3rem); }
@@ -344,6 +398,7 @@
   summary::after { content: "+"; position: absolute; right: .25rem; top: 0; color: var(--green); font-weight: 600; font-size: 1.2rem; }
   details[open] summary::after { content: "\2212"; }
   details p { margin-top: .65rem; font-size: .98rem; max-width: 46rem; }
+  .faq-contact { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; margin-top: 1.75rem; }
 
   footer.site { border-top: 1px solid var(--line); padding-block: 2.5rem 3rem; font-size: .9rem; color: var(--caption); }
   footer.site .wrap { display: grid; gap: .6rem; }
@@ -362,6 +417,7 @@
       <a href="#data">Your data</a>
       <a href="#faq">FAQ</a>
       <a href="security.html">Security</a>
+      <a href="mailto:feedback@aloescribe.ai?subject=Aloe%20Scribe">Contact</a>
     </div>
     <a href="#download" class="btn small">Download</a>
     <button id="themeToggle" class="theme-toggle" aria-label="Switch between light and dark" title="Light or dark"></button>
@@ -455,17 +511,17 @@
         </div>
 
         <div class="sticky-stage" aria-hidden="true">
-          <div class="win shot stage-shot on" data-shot="0">
+          <div class="win shot stage-shot on" data-shot="0" style="--r: 1.75">
             <div class="win-bar"><i></i><i></i><i></i><span>Roast supplier QBR</span></div>
             <img class="l" src="assets/app/light-recording.webp" width="1960" height="1120" alt="">
             <img class="d" src="assets/app/dark-recording.webp" width="1960" height="1120" alt="">
           </div>
-          <div class="win shot stage-shot" data-shot="1">
+          <div class="win shot stage-shot" data-shot="1" style="--r: 1.068">
             <div class="win-bar"><i></i><i></i><i></i><span>Roast supplier QBR</span></div>
             <img class="l" src="assets/app/light-final-note.webp" width="1960" height="1836" alt="">
             <img class="d" src="assets/app/dark-final-note.webp" width="1960" height="1836" alt="">
           </div>
-          <div class="win shot stage-shot" data-shot="2">
+          <div class="win shot stage-shot" data-shot="2" style="--r: 1.441">
             <div class="win-bar"><i></i><i></i><i></i><span>Ask your notes</span></div>
             <img class="l" src="assets/app/light-ask-followup.webp" width="1960" height="1360" alt="">
             <img class="d" src="assets/app/dark-ask-followup.webp" width="1960" height="1360" alt="">
@@ -549,7 +605,7 @@
               <p>Open the notes folder as a vault and the header becomes properties. Turn on linked names in Settings and each attendee is written as a <code>[[Name]]</code> link, so Jordan's page lists every meeting Jordan was in. Logseq builds the same links.</p>
               <p>The client works the same way. Huila Co-op links to the co-op's page, next to its price sheet.</p>
             </div>
-            <div class="fpanel">
+            <div class="fpanel" style="--r: 1.274">
               <div class="cap-stack">
                 <div class="win shot"><div class="win-bar"><i></i><i></i><i></i><span>roast-supplier-qbr-11-03-2026</span></div><img class="l" src="assets/app/light-obsidian-note.webp" width="1440" height="1130" alt="The supplier review open in Obsidian. The header shows as properties, with the client and attendees as links." loading="lazy"><img class="d" src="assets/app/dark-obsidian-note.webp" width="1440" height="1130" alt="" aria-hidden="true" loading="lazy"></div>
                 <div class="win shot cap-card"><div class="win-bar"><i></i><i></i><i></i><span>Jordan Hale</span></div><img class="l" src="assets/app/light-obsidian-jordan.webp" width="594" height="662" alt="Jordan Hale's page in Obsidian. Backlinks lists four meetings under Linked mentions, each from its attendees line." loading="lazy"><img class="d" src="assets/app/dark-obsidian-jordan.webp" width="594" height="662" alt="" aria-hidden="true" loading="lazy"></div>
@@ -564,7 +620,7 @@
               <p>Apple Notes imports Markdown on macOS 26 and iOS 26. On a Mac, choose File, Import to Notes and pick the files. Headings and lists come through as rich text, and action items become checkboxes you can tick. The header lines arrive as plain text above the title.</p>
               <p>Your notes folder stays the original. Re-import a note when it changes.</p>
             </div>
-            <div class="fpanel">
+            <div class="fpanel" style="--r: 1.477">
               <div class="win shot"><div class="win-bar"><i></i><i></i><i></i><span>Notes</span></div><img class="l" src="assets/app/light-notes-qbr.webp" width="1270" height="860" alt="The supplier review imported into Apple Notes, with its headings and lists as rich text and the action items as checkboxes." loading="lazy"><img class="d" src="assets/app/dark-notes-qbr.webp" width="1270" height="860" alt="" aria-hidden="true" loading="lazy"></div>
             </div>
           </article>
@@ -575,7 +631,7 @@
               <p>In Notion, choose Import, then Text &amp; Markdown, and pick a note. It becomes a page with its headings, lists and to-dos in place, ready to share. OneNote takes the same files through its Markdown import.</p>
               <p>An imported copy lives on that service under its rules. The original stays in your folder.</p>
             </div>
-            <div class="fpanel">
+            <div class="fpanel" style="--r: 1.025">
               <div class="win shot"><div class="win-bar"><i></i><i></i><i></i><span>Notion</span></div><img class="l" src="assets/app/light-notion-qbr.webp" width="1460" height="1425" alt="The supplier review imported into Notion as a page, with its headings, bullet lists and to-dos." loading="lazy"><img class="d" src="assets/app/dark-notion-qbr.webp" width="1460" height="1425" alt="" aria-hidden="true" loading="lazy"></div>
             </div>
           </article>
@@ -774,6 +830,10 @@
         <summary>Can I use my own model?</summary>
         <p>Yes. Summaries and Ask notes can use any server that speaks the OpenAI chat format, such as Ollama, LM Studio, vLLM or a company AI platform. Set it in Settings, Summaries, Model. A localhost address keeps everything on the computer. Any other address receives the transcripts it summarizes, so use one your company has approved.</p>
       </details>
+      <div class="faq-contact">
+        <p>Another question, or something not working? Write to us. We read every message.</p>
+        <a class="btn ghost small" href="mailto:feedback@aloescribe.ai?subject=Aloe%20Scribe">Contact us</a>
+      </div>
     </div>
   </section>
 </main>
@@ -782,7 +842,7 @@
   <div class="wrap">
     <p class="brand"><img src="assets/icon.png" alt=""><span>Aloe <b>Scribe</b></span></p>
     <p>The private meeting notepad. Your audio never leaves the machine.</p>
-    <p><a href="security.html">Security and privacy</a> · <a href="recording-laws.html">Recording laws</a> · <a href="vs-granola.html">vs Granola</a> · <a href="vs-otter.html">vs Otter</a> · <a href="vs-macwhisper.html">vs MacWhisper</a> · <a href="https://github.com/vinnybarbs/aloescribe">GitHub</a></p>
+    <p><a href="security.html">Security and privacy</a> · <a href="recording-laws.html">Recording laws</a> · <a href="vs-granola.html">vs Granola</a> · <a href="vs-otter.html">vs Otter</a> · <a href="vs-macwhisper.html">vs MacWhisper</a> · <a href="mailto:feedback@aloescribe.ai?subject=Aloe%20Scribe">Contact us</a> · <a href="https://github.com/vinnybarbs/aloescribe">GitHub</a></p>
     <p class="caption">The people and companies in the screenshots are made up. Site analytics are cookieless page counts by <a href="https://www.goatcounter.com" rel="noopener">GoatCounter</a>. No cookies, no fingerprinting, no personal data. The app itself sends nothing at all.</p>
   </div>
 </footer>
@@ -868,27 +928,56 @@ document.getElementById('signup-form').addEventListener('submit', function (e) {
   });
 });
 
-// Desktop walkthroughs: the window beside the steps shows the view for
-// whichever step is in the middle of the viewport. The first one shows
-// until the observer reports, so the page is complete at rest.
-function follow(steps, views) {
+// Walkthroughs: the pinned window shows the view for whichever step is
+// in the reading band. On a wide screen that is the middle of the
+// viewport. On a phone the window sits at the top, so the band is lower,
+// where the copy shows under it. The first view shows until the observer
+// reports, so the page is complete at rest.
+var wide = window.matchMedia('(min-width: 980px)');
+function follow(steps, views, phoneBand) {
   if (!('IntersectionObserver' in window) || !views.length) return;
   function show(i) {
     steps.forEach(function (s, k) { s.classList.toggle('on', k === i); });
     views.forEach(function (s, k) { s.classList.toggle('on', k === i); });
   }
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (e.isIntersecting) show(steps.indexOf(e.target));
-    });
-  }, { rootMargin: '-45% 0px -45% 0px' });
-  steps.forEach(function (s) { io.observe(s); });
+  var io;
+  function watch() {
+    if (io) io.disconnect();
+    io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) show(steps.indexOf(e.target));
+      });
+    }, { rootMargin: wide.matches || !phoneBand ? '-45% 0px -45% 0px' : phoneBand });
+    steps.forEach(function (s) { io.observe(s); });
+  }
+  watch();
+  if (wide.addEventListener) wide.addEventListener('change', watch);
 }
 function all(sel) { return Array.prototype.slice.call(document.querySelectorAll(sel)); }
-follow(all('#walk .step'), all('#walk .stage-shot'));
+if ('IntersectionObserver' in window) {
+  var walkGrid = document.querySelector('.walk-grid');
+  if (walkGrid) walkGrid.classList.add('phone-stage');
+}
+follow(all('#walk .step'), all('#walk .stage-shot'), '-64% 0px -32% 0px');
 
-// The notes section draws each view once, inside its step. On a wide
-// screen a copy of each goes to the sticky stage instead.
+// On a phone the single screens rise in as they scroll into view.
+(function () {
+  if (!('IntersectionObserver' in window)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { rootMargin: '0px 0px -10% 0px' });
+  all('#ai .win, #notebook .win, .pair .win').forEach(function (el) {
+    el.classList.add('reveal');
+    io.observe(el);
+  });
+})();
+
+// The notes section draws each view once, inside its step. A copy of
+// each goes to the pinned stage, beside the steps on a wide screen and
+// above them on a phone.
 (function () {
   var walk = document.querySelector('.fwalk');
   var stage = walk && walk.querySelector('.fstage');
@@ -900,7 +989,7 @@ follow(all('#walk .step'), all('#walk .stage-shot'));
     stage.appendChild(copy);
   });
   walk.classList.add('staged');
-  follow(steps, Array.prototype.slice.call(stage.children));
+  follow(steps, Array.prototype.slice.call(stage.children), '-64% 0px -32% 0px');
 })();
 </script>
 
