@@ -371,6 +371,12 @@
   }
   .no-net svg { flex: none; width: 22px; height: 22px; color: var(--caption); margin-top: .15rem; }
 
+  /* Aloe Notebook */
+  .nb-main { margin-top: clamp(2rem, 5vw, 3rem); }
+  .nb-row { display: grid; gap: 2rem; margin-top: clamp(2.5rem, 6vw, 4rem); }
+  .nb-copy { display: grid; gap: .8rem; align-content: start; min-width: 0; }
+  .nb-copy h3 + p { margin-bottom: .8rem; }
+  @media (min-width: 980px) { .nb-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1.9fr); align-items: center; gap: 3.5rem; } }
   /* Two columns of copy and a screen */
   .pair { display: grid; gap: 2.5rem; }
   @media (min-width: 900px) { .pair { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 4rem; } }
@@ -640,6 +646,42 @@
       </div>
 
       <div class="apps" aria-label="Apps that open the notes"><span>Obsidian</span><span>Logseq</span><span>Notion</span><span>Apple Notes</span><span>OneNote</span></div>
+    </div>
+  </section>
+
+  <section id="notebook">
+    <div class="wrap">
+      <div class="head">
+        <p class="kicker">Or use Aloe Notebook</p>
+        <h2>Read and edit every note without another app.</h2>
+        <p>Notebook is built into Aloe Scribe. It opens your notes folder in its own window, for people who don't want to set up Obsidian and for teammates who only read the notes. It works on the folder on your disk with the Wi-Fi off, and every note stays a plain Markdown file.</p>
+      </div>
+      <div class="win shot nb-main">
+        <div class="win-bar"><i></i><i></i><i></i><span>Aloe Notes</span></div>
+        <img class="l" src="assets/app/light-notebook-note.webp" width="1960" height="1241" alt="Notebook showing the supplier review. Folders on the left by type, the note with its date, client and attendees as links, and its properties and related action items on the right." loading="lazy">
+        <img class="d" src="assets/app/dark-notebook-note.webp" width="1960" height="1241" alt="" aria-hidden="true" loading="lazy">
+      </div>
+      <div class="nb-row">
+        <div class="nb-copy">
+          <h3>Every folder, shown for what it holds</h3>
+          <p>Meetings read as a timeline, contacts as people, and action items and opportunities as boards. Click into any note to edit it, and it saves as you type. Properties edit as links, dates, chips and checkboxes.</p>
+          <h3>Action items on one board</h3>
+          <p>Each action item is its own note, linked to the meeting it came from. Group them by status or by owner, drag one to a new column, or tick it done right on the board.</p>
+        </div>
+        <div class="win shot">
+          <div class="win-bar"><i></i><i></i><i></i><span>Action items</span></div>
+          <img class="l" src="assets/app/light-notebook-board.webp" width="1760" height="1060" alt="The open action items board in Notebook, in To do, In progress and Waiting columns, each card with its owner, client and due date." loading="lazy">
+          <img class="d" src="assets/app/dark-notebook-board.webp" width="1760" height="1060" alt="" aria-hidden="true" loading="lazy">
+        </div>
+      </div>
+      <div class="facts">
+        <div class="fact"><strong>Safe with OneDrive and SharePoint</strong><p>If a teammate's change syncs in while you type, Notebook never writes over it. You pick which version to keep, and the one it replaced is kept for 14 days.</p></div>
+        <div class="fact"><strong>Search by words or meaning</strong><p>Search uses the same index as Ask notes, so a note turns up for its exact words or for what it is about.</p></div>
+        <div class="fact"><strong>Paste into Loop or Teams</strong><p>Copy for Loop puts a note on the clipboard with its headings, bullets and checkboxes in place.</p></div>
+        <div class="fact"><strong>Rename and move without broken links</strong><p>Rename or move a note and every link to it follows. Delete goes to a 30-day trash, and Undo takes back the last change.</p></div>
+        <div class="fact"><strong>Set it up your way</strong><p>Choose which folders show, in what order and in what view, and pick the tiles on Home. The layout lives in the notes folder, so the whole team sees the same Notebook.</p></div>
+        <div class="fact"><strong>Works next to Obsidian</strong><p>Notebook reads the same files and follows your Obsidian folder templates. Your Bases views run inside it, read only.</p></div>
+      </div>
     </div>
   </section>
 
